@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masai Calculator</title>
+</head>
+<style>
+    #display{
+        margin-left: 43%;
+    }
+    .keys{
+            display: grid;
+            grid-template-columns: repeat(3,40px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+    }
+
+    #operator{
+        display: grid;
+        grid-template-columns: repeat(3,40px);
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    #equal{
+        margin-left: 50%;
+    }
+</style>
+<body>
+   <h1 id="display"></h1>
+  <div class="keys">
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button>7</button>
+    <button>8</button>
+    <button>9</button>
+    <button>0</button>
+  </div>  
+  <div id="operator">
+    <button>+</button><button>-</button><button>*</button><button>/</button>
+  </div>
+  <button id="equal"> = </button>
+</body>
+<script>
+
+let display = document.getElementById("display");
+let keyButton = document.querySelectorAll(".keys > button");
+let operatorButton = document.querySelectorAll("#operator > button");
+let equal = document.getElementById("equal");
+
+let firstNumber = "";
+let secondNumber = "";
+let isFirstNumber = true;
+let selectedOperator = "";
+
+for (let i = 0; i < keyButton.length; i++) {
+    keyButton[i].addEventListener("click", function () {
+        if (isFirstNumber) {
+            firstNumber += keyButton[i].innerText;
+            display.innerText = firstNumber;
+        } else {
+            secondNumber += keyButton[i].innerText;
+            display.innerText = secondNumber;
+        }
+    });
+}
+
+for (let i = 0; i < operatorButton.length; i++) {
+    operatorButton[i].addEventListener("click", function () {
+        isFirstNumber = false;
+        selectedOperator = operatorButton[i].innerText;
+    });
+}
+
+function Calculate(firstNumber, secondNumber, operator) {
+    switch (operator) {
+        case "+":
+            return Number(firstNumber) + Number(secondNumber);
+        case "-":
+            return Number(firstNumber) - Number(secondNumber);
+        case "*":
+            return Number(firstNumber) * Number(secondNumber);
+        case "/":
+            return Number(firstNumber) / Number(secondNumber);
+        default:
+            return "Error";
+    }
+}
+
+equal.addEventListener("click", function () {
+    if (firstNumber && secondNumber && selectedOperator) {
+        const result = Calculate(firstNumber, secondNumber, selectedOperator);
+        display.innerText = result;
+    } else {
+        display.innerText = "Error";
+    }
+});
+
+</script>
+</html>
